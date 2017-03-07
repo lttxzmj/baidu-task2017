@@ -32,7 +32,8 @@
             //空气质量大于 60
             for (i = 0; i < aqiData.length; i++) {
                 var item = aqiData[i];
-                if (item[1] > 60) {
+                var itemNum = item[1];
+                if (itemNum > 60) {
                     newArr.push(item);
                 }
             }
@@ -40,7 +41,7 @@
             for (j = 0; j < newArr.length; j++) {
                 var newItem = newArr[j];
                 var newLi = document.createElement('li');
-                newLi.innerHTML = "第" + (j + 1) + "名" + ":" + newItem[0] + "," + newItem[1];
+                newLi.innerText = "第" + (j + 1) + "名" + ":" + newItem[0] + "," + newItem[1];
                 aqiList.appendChild(newLi);
             }
         })();
