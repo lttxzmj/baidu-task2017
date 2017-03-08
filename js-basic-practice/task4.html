@@ -46,7 +46,17 @@
             // 添加元素
             function addSpan() {
                 var numSpan = document.createElement('span');
-                numSpan.textContent = input.value;
+                //输入不能为空且必须为数字
+                var inputValue = input.value;
+                if (inputValue === '') {
+                    alert('请输入数字')
+                } else if (isNaN(inputValue)) {
+                    alert('输入必须是数字！');
+                    return false;
+                    input.value = '';
+                }
+
+                numSpan.textContent = inputValue;
                 input.value = '';
                 //添加删除事件绑定
                 numSpan.addEventListener('click', function(e) {
@@ -58,13 +68,18 @@
             //添加事件处理
             leftIn.addEventListener('click', function() {
                 var item = addSpan();
-                var theFirstChild = showNum.firstChild;
-                showNum.insertBefore(item, theFirstChild);
-
+                //添加判断条件，以免item为空时报错。
+                if (item) {
+                    //找到第一个子元素，并将其插入到最前面。
+                    var theFirstChild = showNum.firstChild;
+                    showNum.insertBefore(item, theFirstChild);
+                }
             });
             rightIn.addEventListener('click', function() {
                 var item = addSpan();
-                showNum.appendChild(item);
+                if (item) {
+                    showNum.appendChild(item);
+                }
             });
             leftOut.addEventListener('click', function() {
                 var item = addSpan();
