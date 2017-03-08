@@ -52,8 +52,8 @@
                     alert('请输入数字')
                 } else if (isNaN(inputValue)) {
                     alert('输入必须是数字！');
-                    return false;
                     input.value = '';
+                    return false;
                 }
 
                 numSpan.textContent = inputValue;
