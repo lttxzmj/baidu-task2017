@@ -20,6 +20,10 @@
             ["西安", 100]
         ];
 
+        //避免 magic number
+        var AQIDATA_CITY = 0;
+        var AQIDATA_VALUE = 1;
+
         (function() {
             var aqiList = document.getElementById('aqi-list'),
                 i, j,
@@ -32,8 +36,7 @@
             //空气质量大于 60
             for (i = 0; i < aqiData.length; i++) {
                 var item = aqiData[i];
-                var itemNum = item[1];
-                if (itemNum > 60) {
+                if (item[AQIDATA_VALUE] > 60) {
                     newArr.push(item);
                 }
             }
