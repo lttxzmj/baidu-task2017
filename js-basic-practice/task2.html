@@ -27,22 +27,22 @@
         (function() {
             var aqiList = document.getElementById('aqi-list'),
                 i, j,
-                newArr = [];
+                moreThanSixtyArr = [];
             //比较函数
             function comparator(a, b) {
-                return b[1] - a[1];
+                return b[AQIDATA_VALUE] - a[AQIDATA_VALUE];
             }
             aqiData.sort(comparator);
             //空气质量大于 60
             for (i = 0; i < aqiData.length; i++) {
                 var item = aqiData[i];
                 if (item[AQIDATA_VALUE] > 60) {
-                    newArr.push(item);
+                    moreThanSixtyArr.push(item);
                 }
             }
             //将结果渲染到页面
-            for (j = 0; j < newArr.length; j++) {
-                var newItem = newArr[j];
+            for (j = 0; j < moreThanSixtyArr.length; j++) {
+                var newItem = moreThanSixtyArr[j];
                 var newLi = document.createElement('li');
                 newLi.innerText = "第" + (j + 1) + "名" + ":" + newItem[0] + "," + newItem[1];
                 aqiList.appendChild(newLi);
