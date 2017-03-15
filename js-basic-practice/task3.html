@@ -36,12 +36,16 @@
             var i,
                 data = [];
 
-            // 取得DOM节点中的数据，并将字符串转化成数组
+            // 取得DOM节点中的数据， 并将字符串转化成数组
             for (i = 0; i < sourceItem.length; i++) {
                 var itemText = sourceItem[i].textContent.split('：');
                 //将城市名称截取出来，并把对应空气质量转化成数字类型
-                var city = itemText[0].slice(0, 2);
-                var quility = parseInt(itemText[1]);
+                if (itemText) {
+                    var city = itemText[0].slice(0, 2);
+                    var quility = parseInt(itemText[1]);
+                } else {
+                    return;
+                }
                 data.push([city, quility]);
             }
             return data;
@@ -56,8 +60,6 @@
             data.sort(function(a, b) {
                 return a[1] - b[1];
             });
-            console.log(data);
-
             return data;
         }
 
@@ -76,7 +78,7 @@
             }
         }
 
-        function btnHandle() {
+        function handleClick() {
             var aqiData = getData();
             aqiData = sortAqiData(aqiData);
             render(aqiData);
@@ -85,7 +87,7 @@
         function init() {
             // 在这下面给sort-btn绑定一个点击事件，点击时触发btnHandle函数
             var sortBtn = document.getElementById('sort-btn');
-            sortBtn.addEventListener('click', btnHandle);
+            sortBtn.addEventListener('click', handleClick);
         }
 
         init();
