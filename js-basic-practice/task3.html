@@ -43,8 +43,6 @@
                 if (itemText) {
                     var city = itemText[0].slice(0, 2);
                     var quility = parseInt(itemText[1]);
-                } else {
-                    return;
                 }
                 data.push([city, quility]);
             }
@@ -73,7 +71,12 @@
                 i, j;
             for (i = 0; i < data.length; i++) {
                 var resortLi = document.createElement('li');
-                resortLi.innerHTML = '第' + (i + 1) + '名' + ': ' + data[i][0] + '空气质量' + ': ' + '<b>' + data[i][1] + '</b>';
+                var sortValue = document.createElement('b');
+                var sortName = document.createElement('span');
+                sortName.textContent = '第' + (i + 1) + '名' + ': ' + data[i][0] + '空气质量' + ': ';
+                sortValue.textContent = data[i][1];
+                resortLi.appendChild(sortName);
+                resortLi.appendChild(sortValue);
                 resort.appendChild(resortLi);
             }
         }
