@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>task 04</title>
+    <style media="screen">
+        #menu input {
+            border: 1px solid #ccc;
+        }
+
+        #show-num {
+            margin-top: 20px;
+        }
+
+        #show-num span {
+            padding: 10px;
+            background-color: red;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="menu">
+            <input type="text" value="">
+            <button type="button" name="button" class="left-in">左侧入</button>
+            <button type="button" name="button" class="right-in">右侧入</button>
+            <button type="button" name="button" class="left-out">左侧出</button>
+            <button type="button" name="button" class="right-out">右侧出</button>
+        </div>
+        <div id="show-num">
+        </div>
+    </div>
+    <script type="text/javascript">
+        (function() {
+            var menu = document.getElementById('menu');
+            var input = menu.getElementsByTagName('input')[0];
+            var showNum = document.getElementById('show-num');
+            var leftIn = menu.getElementsByClassName('left-in')[0];
+            var rightIn = menu.getElementsByClassName('right-in')[0];
+            var leftOut = menu.getElementsByClassName('left-out')[0];
+            var rightOut = menu.getElementsByClassName('right-out')[0];
+
+            // 添加元素
+            function addSpan() {
+                var numSpan = document.createElement('span');
+                //输入不能为空且必须为数字
+                var inputValue = input.value;
+                if (inputValue === '') {
+                    alert('请输入数字');
+                    return;
+                } else if (isNaN(inputValue)) {
+                    alert('输入必须是数字！');
+                    input.value = '';
+                    return;
+                }
+
+                numSpan.textContent = inputValue;
+                input.value = '';
+                //添加删除事件绑定
+                numSpan.addEventListener('click', function(e) {
+                    e.target.remove();
+                });
+                return numSpan;
+            }
+
+            //添加事件处理
+            leftIn.addEventListener('click', function() {
+                var item = addSpan();
+                //添加判断条件，以免item为空时报错。
+                if (item) {
+                    //找到第一个子元素，并将其插入到最前面。
+                    var theFirstChild = showNum.firstChild;
+                    showNum.insertBefore(item, theFirstChild);
+                }
+            });
+            rightIn.addEventListener('click', function() {
+                var item = addSpan();
+                if (item) {
+                    showNum.appendChild(item);
+                }
+            });
+            leftOut.addEventListener('click', function() {
+                var item = addSpan();
+                var theFirstChild = showNum.firstChild;
+                if (theFirstChild) {
+                    var theFirstChildValue = theFirstChild.textContent;
+                    showNum.removeChild(theFirstChild);
+                    alert(theFirstChildValue);
+                }
+            });
+            rightOut.addEventListener('click', function() {
+                var item = addSpan();
+                //获取最后一个元素节点
+                var lastChild = showNum.lastElementChild;
+                if (lastChild) {
+                    var lastChildValue = lastChild.textContent;
+                    showNum.removeChild(lastChild);
+                    alert(lastChildValue);
+                }
+            });
+        }());
+    </script>
+</body>
+
+</html>
