@@ -45,6 +45,8 @@
             var resetBtn = document.getElementsByClassName('reset')[0];
             var showCol = document.getElementsByClassName('showCol')[0];
             var valueArr = [];
+            var timer = null;
+
 
             //添加元素并且限制输入的数字在 10-100
             function getInputValue(v) {
@@ -68,21 +70,44 @@
                 }
             }
 
+            //state 数组，用于存放每一次比较的结果
+            var state = [];
+            // 冒泡计数器，存放比较的总次数
+            var count1 = 0;
+
             //实现冒泡排序效果
-            function sort(valueArr) {
-                var len = valueArr.length,
+            function sort(spanValue) {
+                var len = spanValue.length,
                     i, j, temp;
 
-                for (i = len - 1; i >= 0; i--) {
-                    for (j = 1; j <= i; j++) {
-                        if (valueArr[j - 1] > valueArr[j]) {
-                            temp = valueArr[j - 1];
-                            valueArr[j - 1] = valueArr[j];
-                            valueArr[j] = temp;
+                for (i = 0; i < spanValue.length; i++) {
+                    for (j = 0; j < spanValue.length - i - 1; j++) {
+                        if (spanValue[j] > spanValue[j + 1]) {
+                            temp = spanValue[j + 1];
+                            spanValue[j + 1] = spanValue[j];
+                            spanValue[j] = temp;
+                            //复制 spanValue 的结果到 state 数组中
+                            state.push(spanValue.slice(0));
+                            count1++;
                         }
                     }
                 }
-                return valueArr;
+            }
+
+            //实现冒泡排序可视化
+            //渲染计数器，初始值为0
+            var count2 = 0;
+            //将每一趟中的每一次比较都渲染到页面中
+            function renderSort() {
+                var spans = showCol.getElementsByTagName('span');
+                s = state.shift() || [];
+                for (var i = 0; i < spans.length; i++) {
+                    spans[i].style.height = s[i];
+                }
+                count2++;
+                if (count2 === count1) {
+                    clearInterval(timer);
+                }
             }
 
             function handleClick() {
@@ -96,7 +121,6 @@
                     } else {
                         //形成柱状图
                         span.style.height = item + 'px';
-                        // span.textContent = item;
                         if (item) {
                             showCol.appendChild(span);
                         }
@@ -104,12 +128,24 @@
                 });
 
                 sortBtn.addEventListener('click', function() {
-                    //实现冒泡排序可视化
+                    var spans = showCol.getElementsByTagName('span');
+                    //设置一个存放每个span高度的数组
+                    var spanValue = [];
+                    for (var i = 0; i < spans.length; i++) {
+                        spanValue.push(spans[i].style.height);
+                    }
 
+                    //对所有的 span 的高度值进行升序排序
+                    sort(spanValue);
+                    //设置一个全局变量定时器
+                    timer = setInterval(renderSort, 500);
                 });
 
+                resetBtn.addEventListener('click', function() {
 
+                })
             }
+
             handleClick();
 
         }());
