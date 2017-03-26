@@ -29,7 +29,6 @@
         </div>
         <div class="show-container">
             <button class="sort" type="button" name="button">排序</button>
-            <button class="reset" type="button" name="button">重置</button>
             <div class="showCol">
             </div>
         </div>
@@ -42,7 +41,6 @@
             var input = menu.getElementsByTagName('input')[0];
             var addBtn = document.getElementsByClassName('add')[0];
             var sortBtn = document.getElementsByClassName('sort')[0];
-            var resetBtn = document.getElementsByClassName('reset')[0];
             var showCol = document.getElementsByClassName('showCol')[0];
             var valueArr = [];
             var timer = null;
@@ -70,6 +68,16 @@
                 }
             }
 
+            function renderInitial() {
+                var span = document.createElement('span');
+                var item = getInputValue();
+                //形成柱状图
+                span.style.height = item + 'px';
+                if (item) {
+                    showCol.appendChild(span);
+                }
+            }
+
             //state 数组，用于存放每一次比较的结果
             var state = [];
             // 冒泡计数器，存放比较的总次数
@@ -88,6 +96,7 @@
                             spanValue[j] = temp;
                             //复制 spanValue 的结果到 state 数组中
                             state.push(spanValue.slice(0));
+                            console.log(state);
                             count1++;
                         }
                     }
@@ -102,7 +111,7 @@
                 var spans = showCol.getElementsByTagName('span');
                 s = state.shift() || [];
                 for (var i = 0; i < spans.length; i++) {
-                    spans[i].style.height = s[i];
+                    spans[i].style.height = s[i] + "px";
                 }
                 count2++;
                 if (count2 === count1) {
@@ -112,18 +121,12 @@
 
             function handleClick() {
                 addBtn.addEventListener('click', function() {
-                    var span = document.createElement('span');
-                    var item = getInputValue();
                     //item 个数最多为60个
                     if (valueArr.length > 60) {
                         alert("只能输入60个数字！");
                         return;
                     } else {
-                        //形成柱状图
-                        span.style.height = item + 'px';
-                        if (item) {
-                            showCol.appendChild(span);
-                        }
+                        renderInitial();
                     }
                 });
 
@@ -132,7 +135,7 @@
                     //设置一个存放每个span高度的数组
                     var spanValue = [];
                     for (var i = 0; i < spans.length; i++) {
-                        spanValue.push(spans[i].style.height);
+                        spanValue.push(parseInt(spans[i].style.height));
                     }
 
                     //对所有的 span 的高度值进行升序排序
@@ -141,9 +144,6 @@
                     timer = setInterval(renderSort, 500);
                 });
 
-                resetBtn.addEventListener('click', function() {
-
-                })
             }
 
             handleClick();
