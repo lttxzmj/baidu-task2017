@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>task 01</title>
+    <style media="screen">
+        form {
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            align-items: baseline;
+        }
+
+        .info {
+            overflow: hidden;
+            width: 210px;
+            margin: 10px;
+        }
+
+        .info input {
+            width: 200px;
+        }
+
+        .info span {
+            float: left;
+            font-size: 12px;
+        }
+
+        .default-info {
+            color: #ccc;
+        }
+
+        .error-info {
+            color: red;
+            display: none;
+        }
+
+        .correct-info {
+            color: green;
+            display: none;
+        }
+
+        button {
+            background-color: #1579B6;
+            color: #fff;
+            border: 1px solid #1579B6;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="index.html" method="post">
+        <div class="container">
+            <label for="name">名称</label>
+            <div class="info">
+                <input type="text" name="" value="">
+                <span class="default-info">必填，长度为 4～16 个字符</span>
+                <span class="error-info">姓名不能为空</span>
+                <span class="correct-info">名称格式正确</span>
+            </div>
+            <button type="submit" name="conform">验证</button>
+        </div>
+    </form>
+</body>
+
+</html>
