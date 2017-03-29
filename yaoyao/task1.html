@@ -33,16 +33,6 @@
             color: #ccc;
         }
 
-        .error-info {
-            color: red;
-            display: none;
-        }
-
-        .correct-info {
-            color: green;
-            display: none;
-        }
-
         button {
             background-color: #1579B6;
             color: #fff;
@@ -55,16 +45,66 @@
 <body>
     <form action="index.html" method="post">
         <div class="container">
-            <label for="name">名称</label>
+            <label for="姓名">姓名</label>
             <div class="info">
-                <input type="text" name="" value="">
+                <input class="name-input" type="text">
                 <span class="default-info">必填，长度为 4～16 个字符</span>
-                <span class="error-info">姓名不能为空</span>
-                <span class="correct-info">名称格式正确</span>
             </div>
-            <button type="submit" name="conform">验证</button>
+            <button class="submit" type="button" name="conform">验证</button>
         </div>
     </form>
 </body>
+
+<script type="text/javascript">
+    (function() {
+        var submitBtn = document.getElementsByClassName('submit')[0];
+
+        //验证格式与长度
+        function getStrLength(nameValue) {
+            var enlen = 0,
+                chlen = 0;
+            for (var i = 0; i < nameValue.length; i++) {
+                //如果是英文字母，算作一个字符,如果是中文，算作两个字符
+                if (nameValue.charCodeAt(i) >= 0 && nameValue.charCodeAt(i) <= 127) {
+                    enlen++;
+                } else {
+                    chlen += 2;
+                }
+            }
+            return enlen + chlen;
+        }
+
+        submitBtn.addEventListener('click', function() {
+            var name = document.getElementsByClassName('name-input')[0];
+            //input 中的值要在按钮点击之前取，否则之前取到的是空的。
+            var defaultInfo = document.getElementsByClassName('default-info')[0];
+            var strLen = getStrLength(name.value);
+            var minLen = 4,
+                maxLen = 16;
+
+            if (strLen === 0 || name.value === null || name.value === '') {
+                defaultInfo.style.color = 'red';
+                defaultInfo.textContent = '输入不能为空';
+                return false;
+            } else if (strLen < minLen) {
+                defaultInfo.style.color = 'red';
+                defaultInfo.textContent = '输入不能小于4';
+                name.value = '';
+                return false;
+            } else if (strLen > maxLen) {
+                defaultInfo.style.color = 'red';
+                defaultInfo.textContent = '输入不能大于16';
+                name.value = '';
+                return false;
+            } else {
+                defaultInfo.style.color = 'green';
+                defaultInfo.textContent = '输入正确';
+                name.value = '';
+                return;
+            }
+        });
+
+    }());
+</script>
 
 </html>
