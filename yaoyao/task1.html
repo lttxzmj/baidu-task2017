@@ -77,8 +77,9 @@
         submitBtn.addEventListener('click', function() {
             var name = document.getElementsByClassName('name-input')[0];
             //input 中的值要在按钮点击之前取，否则之前取到的是空的。
+            var nameValue = name.value;
             var defaultInfo = document.getElementsByClassName('default-info')[0];
-            var strLen = getStrLength(name.value);
+            var strLen = getStrLength(nameValue);
             var minLen = 4,
                 maxLen = 16;
 
