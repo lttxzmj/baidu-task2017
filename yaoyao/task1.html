@@ -33,7 +33,7 @@
             color: #ccc;
         }
 
-        button {
+        .submit {
             background-color: #1579B6;
             color: #fff;
             border: 1px solid #1579B6;
@@ -61,17 +61,17 @@
 
         //验证格式与长度
         function getStrLength(nameValue) {
-            var enlen = 0,
-                chlen = 0;
+            var len = 0;
+
             for (var i = 0; i < nameValue.length; i++) {
                 //如果是英文字母，算作一个字符,如果是中文，算作两个字符
                 if (nameValue.charCodeAt(i) >= 0 && nameValue.charCodeAt(i) <= 127) {
-                    enlen++;
+                    len++;
                 } else {
-                    chlen += 2;
+                    len += 2;
                 }
             }
-            return enlen + chlen;
+            return len;
         }
 
         submitBtn.addEventListener('click', function() {
@@ -83,7 +83,7 @@
             var minLen = 4,
                 maxLen = 16;
 
-            if (strLen === 0 || name.value === null || name.value === '') {
+            if (strLen === 0 || !nameValue) {
                 defaultInfo.style.color = 'red';
                 defaultInfo.textContent = '输入不能为空';
                 return false;
