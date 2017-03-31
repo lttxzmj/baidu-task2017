@@ -89,6 +89,7 @@
             var emailInput = email.getElementsByTagName('input')[0];
             var telphone = document.getElementsByClassName('telphone')[0];
             var telphoneInput = telphone.getElementsByTagName('input')[0];
+            var submitButton = document.getElementsByClassName('submit')[0];
             //获得当前页面下获得焦点的元素
             var selectedInput = document.activeElement;
             var span = document.createElement('span');
@@ -134,7 +135,7 @@
                     if (telphone.contains(span)) {
                         return;
                     } else {
-                        span.textContent = '11位数字';
+                        span.textContent = '请输入11位数字';
                         span.className = 'info';
                         telphone.appendChild(span);
                     }
@@ -205,10 +206,11 @@
             function checkPasswordConfirm() {
                 var password1 = passwordInput.value;
                 var password2 = passwordConfirmInput.value;
-                if (!password2) {
+                if (!password2 || !password1) {
                     span.textContent = '请输入密码';
                     span.className = 'info error-info';
                     passwordInput.focus();
+                    passwordConfirmInput.value = '';
                     password.appendChild(span);
                     return false;
                 } else if (password2 === password1) {
@@ -264,8 +266,7 @@
                 }
             }
 
-
-
+            //失去焦点
             function loseFocus() {
                 nameInput.addEventListener('blur', checkName, false);
                 passwordInput.addEventListener('blur', checkPassword, false);
@@ -274,9 +275,22 @@
                 telphoneInput.addEventListener('blur', checkTelphone, false);
             }
 
+            //提交表单并验证
+            function submitForm() {
+                submitButton.addEventListener('click', function() {
+                    var test = checkName() && checkPassword() && checkPasswordConfirm() && checkEmail() && checkTelphone();
+                    if (test) {
+                        alert('提交成功')
+                    } else {
+                        alert('提交失败')
+                    }
+                }, false)
+            }
+
             function init() {
                 getFocus();
                 loseFocus();
+                submitForm();
             }
             init();
         }());
