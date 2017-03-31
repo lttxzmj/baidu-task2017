@@ -180,8 +180,87 @@
                     span.className = 'info correct-info';
                     nameInput.style.border = '1px solid green';
                     name.appendChild(span);
-                    nameInput.value = '';
-                    return;
+                    return true;
+                }
+            }
+
+            function checkPassword() {
+                var passwordRegExp = /^(\w){6,20}$/;
+                var test = passwordRegExp.test(passwordInput.value);
+                if (test) {
+                    span.textContent = '密码可用';
+                    span.className = 'info correct-info';
+                    passwordInput.style.border = '1px solid green';
+                    password.appendChild(span);
+                    return true;
+                } else {
+                    span.textContent = '密码不可用';
+                    span.className = 'info error-info';
+                    passwordInput.style.border = '1px solid red';
+                    password.appendChild(span);
+                    return false;
+                }
+            }
+
+            function checkPasswordConfirm() {
+                var password1 = passwordInput.value;
+                var password2 = passwordConfirmInput.value;
+                if (!password2) {
+                    span.textContent = '请输入密码';
+                    span.className = 'info error-info';
+                    passwordInput.focus();
+                    password.appendChild(span);
+                    return false;
+                } else if (password2 === password1) {
+                    span.textContent = '密码匹配';
+                    span.className = 'info correct-info';
+                    passwordInput.style.border = '1px solid green';
+                    passwordConfirmInput.style.border = '1px solid green';
+                    passwordConfirm.appendChild(span);
+                    return true;
+                } else {
+                    span.textContent = '密码不匹配';
+                    span.className = 'info error-info';
+                    passwordInput.style.border = '1px solid red';
+                    passwordConfirmInput.style.border = '1px solid red';
+                    passwordConfirm.appendChild(span);
+                    return false;
+                }
+            }
+
+            function checkEmail() {
+                var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                var test = emailRegExp.test(emailInput.value);
+                if (test) {
+                    span.textContent = '邮箱可用';
+                    span.className = 'info correct-info';
+                    emailInput.style.border = '1px solid green';
+                    email.appendChild(span);
+                    return true;
+                } else {
+                    span.textContent = '邮箱格式错误';
+                    span.className = 'info error-info';
+                    emailInput.style.border = '1px solid red';
+                    email.appendChild(span);
+                    return false;
+                }
+            }
+
+            function checkTelphone() {
+                var telphoneRegExp = /^(\+86)?(1[0-9]{10})$/;
+                var test = telphoneRegExp.test(telphoneInput.value);
+                if (test) {
+                    span.textContent = '手机格式正确';
+                    span.className = 'info correct-info';
+                    telphoneInput.style.border = '1px solid green';
+                    telphone.appendChild(span);
+                    return true;
+                } else {
+                    span.textContent = '手机格式错误';
+                    span.className = 'info error-info';
+                    telphoneInput.style.border = '1px solid red';
+                    telphone.appendChild(span);
+                    return false;
                 }
             }
 
@@ -189,6 +268,10 @@
 
             function loseFocus() {
                 nameInput.addEventListener('blur', checkName, false);
+                passwordInput.addEventListener('blur', checkPassword, false);
+                passwordConfirmInput.addEventListener('blur', checkPasswordConfirm, false);
+                emailInput.addEventListener('blur', checkEmail, false);
+                telphoneInput.addEventListener('blur', checkTelphone, false);
             }
 
             function init() {
