@@ -23,6 +23,11 @@
             margin: 0 5px 5px 5px;
             padding: 3px;
         }
+        /*修改span 与input 内容不整齐*/
+
+        .password-confirm span:nth-of-type(1) {
+            margin: 0 5px 5px 70px;
+        }
 
         .info {
             display: block;
@@ -90,57 +95,95 @@
             var telphone = document.getElementsByClassName('telphone')[0];
             var telphoneInput = telphone.getElementsByTagName('input')[0];
             var submitButton = document.getElementsByClassName('submit')[0];
-            //获得当前页面下获得焦点的元素
-            var selectedInput = document.activeElement;
+
             var span = document.createElement('span');
 
             function getFocus() {
-                nameInput.addEventListener('mousedown', function() {
-                    if (name.contains(span)) {
-                        return;
-                    } else {
-                        span.textContent = '必填，长度为4~16个字符';
-                        span.className = 'info';
-                        name.appendChild(span);
-                    }
-                });
-                passwordInput.addEventListener('mousedown', function() {
-                    if (password.contains(span)) {
-                        return;
-                    } else {
-                        span.textContent = '输入密码';
-                        span.className = 'info';
-                        password.appendChild(span);
-                    }
-                });
-                passwordConfirmInput.addEventListener('mousedown', function() {
-                    if (passwordConfirm.contains(span)) {
-                        return;
-                    } else {
-                        span.textContent = '再次确认密码';
-                        span.className = 'info';
-                        passwordConfirm.appendChild(span);
-                    }
-                });
-                emailInput.addEventListener('mousedown', function() {
-                    if (email.contains(span)) {
-                        return;
-                    } else {
-                        span.textContent = '输入邮箱';
-                        span.className = 'info';
-                        email.appendChild(span);
-                    }
-                });
-                telphoneInput.addEventListener('mousedown', function() {
-                    if (telphone.contains(span)) {
-                        return;
-                    } else {
-                        span.textContent = '请输入11位数字';
-                        span.className = 'info';
-                        telphone.appendChild(span);
-                    }
-                });
+                //获得当前页面下获得焦点的元素
 
+                nameInput.addEventListener('focus', function(e) {
+                    var e = event || window.event,
+                        target = e.target || e.srcElement;
+                    if (target === nameInput) {
+                        if (name.contains(span)) {
+                            return false;
+                        } else {
+                            span.textContent = '必填，长度为4~16个字符';
+                            span.className = 'info';
+                            name.appendChild(span);
+                            return true;
+                        }
+                    } else {
+                        return false;
+                    }
+                }, false);
+                passwordInput.addEventListener('focus', function(e) {
+                    var e = event || window.event,
+                        target = e.target || e.srcElement;
+                    if (target === passwordInput) {
+                        if (password.contains(span)) {
+                            return false;
+                        } else {
+                            span.textContent = '输入密码';
+                            span.className = 'info';
+                            password.appendChild(span);
+                            return true;
+                        }
+                    } else {
+                        return false;
+                    }
+                }, false);
+
+                passwordConfirmInput.addEventListener('focus', function() {
+                    var e = event || window.event,
+                        target = e.target || e.srcElement;
+                    if (target === passwordConfirmInput) {
+                        if (passwordConfirm.contains(span)) {
+                            return false;
+                        } else {
+                            span.textContent = '再次确认密码';
+                            span.className = 'info';
+                            passwordConfirm.appendChild(span);
+                            return true;
+                        }
+                    } else {
+                        return false;
+                    }
+                }, false);
+
+                emailInput.addEventListener('focus', function() {
+                    var e = event || window.event,
+                        target = e.target || e.srcElement;
+                    if (target === emailInput) {
+                        if (email.contains(span)) {
+                            return false;
+                        } else {
+                            span.textContent = '请输入邮箱';
+                            span.className = 'info';
+                            email.appendChild(span);
+                            return true;
+                        }
+                    } else {
+                        return false;
+                    }
+                }, false);
+
+                telphoneInput.addEventListener('focus', function() {
+                    var e = event || window.event,
+                        target = e.target || e.srcElement;
+                    if (target === telphoneInput) {
+                        if (telphone.contains(span)) {
+                            return false;
+                        } else {
+                            span.textContent = '请输入11位数字';
+                            span.className = 'info';
+                            telphone.appendChild(span);
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                }, false);
             }
 
             function checkName() {
@@ -295,6 +338,26 @@
             init();
         }());
     </script>
+
+</body>
+
+</html>
+} function checkTelphone() { var telphoneRegExp = /^(\+86)?(1[0-9]{10})$/; var test = telphoneRegExp.test(telphoneInput.value); if (test) { span.textContent = '手机格式正确'; span.className = 'info correct-info'; telphoneInput.style.border = '1px solid green';
+telphone.appendChild(span); return true; } else { span.textContent = '手机格式错误'; span.className = 'info error-info'; telphoneInput.style.border = '1px solid red'; telphone.appendChild(span); return false; } } //失去焦点 function loseFocus() { nameInput.addEventListener('blur',
+checkName, false); passwordInput.addEventListener('blur', checkPassword, false); passwordConfirmInput.addEventListener('blur', checkPasswordConfirm, false); emailInput.addEventListener('blur', checkEmail, false); telphoneInput.addEventListener('blur',
+checkTelphone, false); } //提交表单并验证 function submitForm() { submitButton.addEventListener('click', function() { var test = checkName() && checkPassword() && checkPasswordConfirm() && checkEmail() && checkTelphone(); if (test) { alert('提交成功') } else { alert('提交失败')
+} }, false) } function init() { getFocus(); loseFocus(); submitForm(); } init(); }());
+</script>
+
+</body>
+
+</html>
+} function checkTelphone() { var telphoneRegExp = /^(\+86)?(1[0-9]{10})$/; var test = telphoneRegExp.test(telphoneInput.value); if (test) { span.textContent = '手机格式正确'; span.className = 'info correct-info'; telphoneInput.style.border = '1px solid green';
+telphone.appendChild(span); return true; } else { span.textContent = '手机格式错误'; span.className = 'info error-info'; telphoneInput.style.border = '1px solid red'; telphone.appendChild(span); return false; } } //失去焦点 function loseFocus() { nameInput.addEventListener('blur',
+checkName, false); passwordInput.addEventListener('blur', checkPassword, false); passwordConfirmInput.addEventListener('blur', checkPasswordConfirm, false); emailInput.addEventListener('blur', checkEmail, false); telphoneInput.addEventListener('blur',
+checkTelphone, false); } //提交表单并验证 function submitForm() { submitButton.addEventListener('click', function() { var test = checkName() && checkPassword() && checkPasswordConfirm() && checkEmail() && checkTelphone(); if (test) { alert('提交成功') } else { alert('提交失败')
+} }, false) } function init() { getFocus(); loseFocus(); submitForm(); } init(); }());
+</script>
 
 </body>
 
