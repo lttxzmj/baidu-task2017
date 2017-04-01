@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>task03 表单（三）联动</title>
+    <style media="screen">
+        #wrap {
+            width: 400px;
+            margin: 50px auto;
+        }
+
+        .select-container {
+            display: flex;
+        }
+
+        .select-container,
+        .description,
+        .on-school,
+        .out-school {
+            margin: 10px;
+        }
+
+        #wrap select {
+            width: 100px;
+        }
+
+        .description {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <form id='wrap'>
+        <div class="select-container">
+            <div class="on-school">
+                <input id="school-student" name="student" type="radio">
+                <label for="school-student">在校生</label>
+            </div>
+            <div class="out-school">
+                <input id="not-school-student" name="student" type="radio">
+                <label for="not-school-student">非在校生</label>
+            </div>
+        </div>
+        <div class="description">
+            <div class="university-container">
+                <label for="city">学校</label>
+                <select class="city" name="city">
+                    <!-- <option value="">北京</option>
+                    <option value="">广东</option> -->
+                </select>
+                <select class="university" name="university">
+                    <!-- <option value="">北京大学</option>
+                    <option value="">清华大学</option>
+                    <option value="">北京语言大学</option>
+                    <option value="">北京工业大学</option>
+                    <option value="">深圳大学</option>
+                    <option value="">深圳职业学院</option>
+                    <option value="">广州语言大学</option>
+                    <option value="">广州工业大学</option> -->
+                </select>
+            </div>
+            <div class='career-container'>
+                <label for="career">就业单位</label>
+                <input type="text" name="career">
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>
