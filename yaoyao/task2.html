@@ -342,23 +342,3 @@
 </body>
 
 </html>
-} function checkTelphone() { var telphoneRegExp = /^(\+86)?(1[0-9]{10})$/; var test = telphoneRegExp.test(telphoneInput.value); if (test) { span.textContent = '手机格式正确'; span.className = 'info correct-info'; telphoneInput.style.border = '1px solid green';
-telphone.appendChild(span); return true; } else { span.textContent = '手机格式错误'; span.className = 'info error-info'; telphoneInput.style.border = '1px solid red'; telphone.appendChild(span); return false; } } //失去焦点 function loseFocus() { nameInput.addEventListener('blur',
-checkName, false); passwordInput.addEventListener('blur', checkPassword, false); passwordConfirmInput.addEventListener('blur', checkPasswordConfirm, false); emailInput.addEventListener('blur', checkEmail, false); telphoneInput.addEventListener('blur',
-checkTelphone, false); } //提交表单并验证 function submitForm() { submitButton.addEventListener('click', function() { var test = checkName() && checkPassword() && checkPasswordConfirm() && checkEmail() && checkTelphone(); if (test) { alert('提交成功') } else { alert('提交失败')
-} }, false) } function init() { getFocus(); loseFocus(); submitForm(); } init(); }());
-</script>
-
-</body>
-
-</html>
-} function checkTelphone() { var telphoneRegExp = /^(\+86)?(1[0-9]{10})$/; var test = telphoneRegExp.test(telphoneInput.value); if (test) { span.textContent = '手机格式正确'; span.className = 'info correct-info'; telphoneInput.style.border = '1px solid green';
-telphone.appendChild(span); return true; } else { span.textContent = '手机格式错误'; span.className = 'info error-info'; telphoneInput.style.border = '1px solid red'; telphone.appendChild(span); return false; } } //失去焦点 function loseFocus() { nameInput.addEventListener('blur',
-checkName, false); passwordInput.addEventListener('blur', checkPassword, false); passwordConfirmInput.addEventListener('blur', checkPasswordConfirm, false); emailInput.addEventListener('blur', checkEmail, false); telphoneInput.addEventListener('blur',
-checkTelphone, false); } //提交表单并验证 function submitForm() { submitButton.addEventListener('click', function() { var test = checkName() && checkPassword() && checkPasswordConfirm() && checkEmail() && checkTelphone(); if (test) { alert('提交成功') } else { alert('提交失败')
-} }, false) } function init() { getFocus(); loseFocus(); submitForm(); } init(); }());
-</script>
-
-</body>
-
-</html>
