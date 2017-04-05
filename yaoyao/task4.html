@@ -128,25 +128,34 @@
                 //判断蓝色边在哪个方向
                 var step = 1;
                 var angle = parseInt(getRotateDeg(main));
-                console.log(angle);
 
-                if (angle === 0) {
+                //限制范围
+                var mainStyle = window.getComputedStyle(main);
+                var mainTop = parseInt(mainStyle.getPropertyValue('top'));
+                var mainLeft = parseInt(mainStyle.getPropertyValue('left'));
+
+                var topLimit = 50,
+                    bottomLimit = 410,
+                    leftLimit = 534,
+                    rightLimit = 894;
+
+                if (angle === 0 && mainTop > topLimit) {
                     //如果蓝色边方向向上
                     var currentTop = main.offsetTop;
                     main.style.top = currentTop - step * size + 'px';
                     console.log('向上')
 
-                } else if (angle === 180) {
+                } else if (angle === 180 && mainTop < bottomLimit) {
                     //如果蓝色边方向向下
                     var currentTop = main.offsetTop;
                     main.style.top = currentTop + step * size + 'px';
                     console.log('向下')
-                } else if (angle === -90) {
+                } else if (angle === -90 && mainLeft > leftLimit) {
                     //如果蓝色边方向向左
                     var currentLeft = main.offsetLeft;
                     main.style.left = currentLeft - step * size + 'px';
                     console.log('向左')
-                } else if (angle === 90) {
+                } else if (angle === 90 && mainLeft < rightLimit) {
                     //如果蓝色边方向向右
                     var currentLeft = main.offsetLeft;
                     main.style.left = currentLeft + step * size + 'px';
@@ -181,7 +190,6 @@
                 var st = window.getComputedStyle(el, null);
                 //tr 是一个矩阵变换
                 var tr = st.getPropertyValue("transform");
-                console.log(tr);
 
                 if (tr !== 'none') {
                     var values = tr.split('(')[1];
@@ -217,7 +225,6 @@
 
             function init() {
                 grid();
-                // initialDirtion();
                 goButton.addEventListener('click', move, false);
             }
             init();
