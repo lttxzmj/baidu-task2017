@@ -134,32 +134,29 @@
                 var mainTop = parseInt(mainStyle.getPropertyValue('top'));
                 var mainLeft = parseInt(mainStyle.getPropertyValue('left'));
 
-                var topLimit = 50,
-                    bottomLimit = 410,
-                    leftLimit = 534,
-                    rightLimit = 894;
+
+                var topLimit = container.offsetTop,
+                    bottomLimit = container.offsetTop + (w - 1) * size,
+                    leftLimit = container.offsetLeft,
+                    rightLimit = container.offsetLeft + (h - 1) * size;
 
                 if (angle === 0 && mainTop > topLimit) {
                     //如果蓝色边方向向上
                     var currentTop = main.offsetTop;
                     main.style.top = currentTop - step * size + 'px';
-                    console.log('向上')
 
                 } else if (angle === 180 && mainTop < bottomLimit) {
                     //如果蓝色边方向向下
                     var currentTop = main.offsetTop;
                     main.style.top = currentTop + step * size + 'px';
-                    console.log('向下')
                 } else if (angle === -90 && mainLeft > leftLimit) {
                     //如果蓝色边方向向左
                     var currentLeft = main.offsetLeft;
                     main.style.left = currentLeft - step * size + 'px';
-                    console.log('向左')
                 } else if (angle === 90 && mainLeft < rightLimit) {
                     //如果蓝色边方向向右
                     var currentLeft = main.offsetLeft;
                     main.style.left = currentLeft + step * size + 'px';
-                    console.log('向右');
                 } else {
                     return false;
                 }
@@ -167,21 +164,19 @@
 
             //TUN LEF：向左转（逆时针旋转90度）
             function turnLeft() {
-                var deg = -90 % 360;
+                var deg = -90;
                 main.style.transform = 'rotate(' + deg + 'deg)';
-
             }
 
             //TUN RIG：向右转（顺时针旋转90度）
             function turnRight() {
-                var deg = 90 % 360;
+                var deg = 90;
                 main.style.transform = 'rotate(' + deg + 'deg)';
-
             }
 
             //TUN BAC：向右转（旋转180度）
             function turnBack() {
-                var deg = 180 % 360;
+                var deg = 180;
                 main.style.transform = 'rotate(' + deg + 'deg)';
             }
 
@@ -201,7 +196,6 @@
                     var d = values[3];
                     var scale = Math.sqrt(a * a + b * b);
                     var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-                    console.log(angle);
                     return angle;
                 } else {
                     return angle = 0;
