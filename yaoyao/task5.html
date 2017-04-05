@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>task04 听指令的小方块（一）</title>
+    <style media="screen">
+        .container {
+            border: 1px solid #ccc;
+            border-width: 1px 0 0 1px;
+            margin: 50px auto;
+            position: relative;
+        }
+
+        .block {
+            border: 1px solid #ccc;
+            border-width: 0 1px 1px 0;
+            float: left;
+            position: relative;
+        }
+
+        .num-top {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            top: -40px;
+        }
+
+        .num-left {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            left: -40px;
+            line-height: 40px;
+        }
+
+        .main {
+            position: relative;
+        }
+
+        .main-dirction {
+            width: 40px;
+            height: 10px;
+            background: blue;
+            position: absolute;
+        }
+
+        .main-bottom {
+            width: 40px;
+            height: 40px;
+            background: red;
+        }
+
+        .input-container {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+    </div>
+    <div class="main">
+        <div class="main-dirction">
+        </div>
+        <div class="main-bottom">
+        </div>
+    </div>
+    <div class="input-container">
+        <input class="go-input" type="text" name="">
+        <button class="go-button" type="button" name="button">执行</button>
+        <p>
+            TIP: 可输入以下命令
+            <br> GO：向蓝色边所面向的方向前进一格（一格等同于正方形的边长）
+            <br> TUN LEF：向左转（逆时针旋转90度）
+            <br> TUN RIG：向右转（顺时针旋转90度）
+            <br> TUN BAC：向右转（旋转180度）
+        </p>
+    </div>
+    <script type="text/javascript">
+        (function() {
+            var container = document.getElementsByClassName('container')[0];
+            var main = document.getElementsByClassName('main')[0];
+            var goInput = document.getElementsByClassName('go-input')[0];
+            var goButton = document.getElementsByClassName('go-button')[0];
+            var mainDirction = document.getElementsByClassName('main-dirction')[0];
+            var w = 10,
+                h = 10,
+                size = 40;
+
+            function grid() {
+                container.style.width = w * size + 'px';
+                container.style.height = h * size + 'px';
+                for (var i = 0; i < w; i++) {
+                    for (var j = 0; j < h; j++) {
+                        if (i === 0) {
+                            var num = document.createElement('span');
+                            num.textContent = j + 1;
+                            num.className = 'num-top';
+                            container.appendChild(num);
+                        }
+                        if (j === 0) {
+                            var num = document.createElement('span');
+                            num.textContent = i + 1;
+                            num.style.top = i * size + 'px';
+                            num.className = 'num-left';
+                            container.appendChild(num);
+                        }
+                        var cube = document.createElement('div');
+                        cube.className = 'block';
+                        cube.style.height = (size - 1) + 'px';
+                        cube.style.width = (size - 1) + 'px';
+                        container.appendChild(cube);
+                    }
+                }
+
+                //将 main 小方块随机放置在 container 中
+                main.style.position = 'absolute';
+                main.style.top = container.offsetTop + (Math.floor(Math.random() * w)) * size + 'px';
+                main.style.left = container.offsetLeft + (Math.floor(Math.random() * h)) * size + 'px';
+
+            }
+
+            //向蓝色边所在的方向前进一格（一格等同于正方形的边长）
+            function go() {
+                //判断蓝色边在哪个方向
+                var step = 1;
+                var angle = parseInt(getRotateDeg(main));
+
+                //限制范围
+                var mainStyle = window.getComputedStyle(main);
+                var mainTop = parseInt(mainStyle.getPropertyValue('top'));
+                var mainLeft = parseInt(mainStyle.getPropertyValue('left'));
+
+
+                var topLimit = container.offsetTop,
+                    bottomLimit = container.offsetTop + (w - 1) * size,
+                    leftLimit = container.offsetLeft,
+                    rightLimit = container.offsetLeft + (h - 1) * size;
+
+                if (angle === 0 && mainTop > topLimit) {
+                    //如果蓝色边方向向上
+                    var currentTop = main.offsetTop;
+                    main.style.top = currentTop - step * size + 'px';
+
+                } else if (angle === 180 && mainTop < bottomLimit) {
+                    //如果蓝色边方向向下
+                    var currentTop = main.offsetTop;
+                    main.style.top = currentTop + step * size + 'px';
+                } else if (angle === -90 && mainLeft > leftLimit) {
+                    //如果蓝色边方向向左
+                    var currentLeft = main.offsetLeft;
+                    main.style.left = currentLeft - step * size + 'px';
+                } else if (angle === 90 && mainLeft < rightLimit) {
+                    //如果蓝色边方向向右
+                    var currentLeft = main.offsetLeft;
+                    main.style.left = currentLeft + step * size + 'px';
+                } else {
+                    return false;
+                }
+            }
+
+            //TUN LEF：向左转（逆时针旋转90度）
+            function turnLeft() {
+                var deg = -90;
+                main.style.transform = 'rotate(' + deg + 'deg)';
+            }
+
+            //TUN RIG：向右转（顺时针旋转90度）
+            function turnRight() {
+                var deg = 90;
+                main.style.transform = 'rotate(' + deg + 'deg)';
+            }
+
+            //TUN BAC：向右转（旋转180度）
+            function turnBack() {
+                var deg = 180;
+                main.style.transform = 'rotate(' + deg + 'deg)';
+            }
+
+            //获取旋转角度
+            function getRotateDeg(el) {
+                var st = window.getComputedStyle(el, null);
+                //tr 是一个矩阵变换
+                var tr = st.getPropertyValue("transform");
+
+                if (tr !== 'none') {
+                    var values = tr.split('(')[1];
+                    values = values.split(')')[0];
+                    values = values.split(',');
+                    var a = values[0];
+                    var b = values[1];
+                    var c = values[2];
+                    var d = values[3];
+                    var scale = Math.sqrt(a * a + b * b);
+                    var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+                    return angle;
+                } else {
+                    return angle = 0;
+                }
+            }
+
+            //运动函数，根据用户指令执行不同的运动函数
+            function move() {
+                if (goInput.value.toUpperCase() === 'GO') {
+                    go();
+                } else if (goInput.value.toUpperCase() === 'TUN LEF') {
+                    turnLeft();
+                } else if (goInput.value.toUpperCase() === 'TUN RIG') {
+                    turnRight();
+                } else if (goInput.value.toUpperCase() === 'TUN BAC') {
+                    turnBack();
+                } else {
+                    return false;
+                }
+            }
+
+            function init() {
+                grid();
+                goButton.addEventListener('click', move, false);
+            }
+            init();
+        }());
+    </script>
+</body>
+
+</html>
