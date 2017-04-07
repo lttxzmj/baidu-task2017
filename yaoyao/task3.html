@@ -26,10 +26,6 @@
         .hidden {
             display: none;
         }
-
-        .show {
-            display: block;
-        }
     </style>
 </head>
 
@@ -78,11 +74,11 @@
             //根据用户的选择修改相应的样式
             function change() {
                 if (inSchool.checked) {
-                    student.className = 'show';
-                    career.className = 'hidden';
+                    student.classList.remove('hidden');
+                    career.classList.add('hidden');
                 } else {
-                    student.className = 'hidden';
-                    career.className = 'show';
+                    student.classList.add('hidden');
+                    career.classList.remove('hidden');
                 }
             }
 
