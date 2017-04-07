@@ -213,9 +213,15 @@
                 main.style.transform = 'rotate(' + deg + 'deg)';
             }
 
+
             //TUN RIG：向右转（顺时针旋转90度）
             function turnRight() {
                 var deg = 90;
+                main.style.transform = 'rotate(' + deg + 'deg)';
+            }
+            //向上转
+            function turnTop() {
+                var deg = 0;
                 main.style.transform = 'rotate(' + deg + 'deg)';
             }
 
@@ -294,21 +300,25 @@
                 }
             }
 
-            // function moveLeft() {
-            //
-            // }
-            //
-            // function moveTop() {
-            //
-            // }
-            //
-            // function moveRight() {
-            //
-            // }
-            //
-            // function moveBottom() {
-            //
-            // }
+            function moveLeft() {
+                turnLeft();
+                go();
+            }
+
+            function moveTop() {
+                turnTop();
+                go();
+            }
+
+            function moveRight() {
+                turnRight();
+                go();
+            }
+
+            function moveBottom() {
+                turnBack();
+                go();
+            }
 
             //运动函数，根据用户指令执行不同的运动函数
             function move() {
