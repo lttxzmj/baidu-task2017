@@ -10,6 +10,8 @@
             border-width: 1px 0 0 1px;
             margin: 50px auto;
             position: relative;
+            float: left;
+            left: 40px;
         }
 
         .block {
@@ -34,6 +36,12 @@
             text-align: center;
             left: -40px;
             line-height: 40px;
+        }
+
+        .info-container {
+            margin: 0 auto;
+            font-size: 16px;
+            font-stretch: ultra-expanded;
         }
 
         .main {
@@ -62,23 +70,34 @@
 <body>
     <div class="container">
     </div>
-    <div class="main">
-        <div class="main-dirction">
+    <div class="info-container">
+        <div class="main">
+            <div class="main-dirction">
+            </div>
+            <div class="main-bottom">
+            </div>
         </div>
-        <div class="main-bottom">
+        <div class="input-container">
+            <input class="go-input" type="text" name="">
+            <button class="go-button" type="button" name="button">执行</button>
+            <p>
+                TIP: 可输入以下命令
+                <br> GO：向蓝色边所面向的方向前进一格（一格等同于正方形的边长）
+                <br> TUN LEF：向左转（逆时针旋转90度）
+                <br> TUN RIG：向右转（顺时针旋转90度）
+                <br> TUN BAC：向右转（旋转180度）
+                <br> TRA LEF：向屏幕的左侧移动一格，方向不变
+                <br>TRA TOP：向屏幕的上面移动一格，方向不变
+                <br>TRA RIG：向屏幕的右侧移动一格，方向不变
+                <br>TRA BOT：向屏幕的下面移动一格，方向不变
+                <br>MOV LEF：方向转向屏幕左侧，并向屏幕的左侧移动一格
+                <br> MOV TOP：方向转向屏幕上面，向屏幕的上面移动一格
+                <br> MOV RIG：方向转向屏幕右侧，向屏幕的右侧移动一格
+                <br> MOV BOT：方向转向屏幕下面，向屏幕的下面移动一格
+            </p>
         </div>
     </div>
-    <div class="input-container">
-        <input class="go-input" type="text" name="">
-        <button class="go-button" type="button" name="button">执行</button>
-        <p>
-            TIP: 可输入以下命令
-            <br> GO：向蓝色边所面向的方向前进一格（一格等同于正方形的边长）
-            <br> TUN LEF：向左转（逆时针旋转90度）
-            <br> TUN RIG：向右转（顺时针旋转90度）
-            <br> TUN BAC：向右转（旋转180度）
-        </p>
-    </div>
+
     <script type="text/javascript">
         (function() {
             var container = document.getElementsByClassName('container')[0];
@@ -89,6 +108,7 @@
             var w = 10,
                 h = 10,
                 size = 40;
+            var step = 1;
 
             function grid() {
                 container.style.width = w * size + 'px';
@@ -123,22 +143,47 @@
 
             }
 
+            //获得 main 的 top、 bottom、 left、 right 值
+            function getElePos(ele, dir) {
+                var eleStyle = window.getComputedStyle(ele);
+                var eleTop = parseInt(eleStyle.getPropertyValue('top'));
+                var eleLeft = parseInt(eleStyle.getPropertyValue('left'));
+                if (dir.toString() === 'top') {
+                    return eleTop;
+                } else if (dir.toString() === 'left') {
+                    return eleLeft;
+                } else {
+                    return false;
+                }
+            }
+
+            //限制 main 的范围
+            function getPosLimit(ele, dir) {
+                if (dir.toString() === 'top') {
+                    return ele.offsetTop;
+                } else if (dir.toString() === 'bottom') {
+                    return ele.offsetTop + (w - 1) * size;
+                } else if (dir.toString() === 'left') {
+                    return ele.offsetLeft;
+                } else if (dir.toString() === 'right') {
+                    return ele.offsetLeft + (h - 1) * size;
+                } else {
+                    return false;
+                }
+            }
+
             //向蓝色边所在的方向前进一格（一格等同于正方形的边长）
             function go() {
                 //判断蓝色边在哪个方向
-                var step = 1;
                 var angle = parseInt(getRotateDeg(main));
 
-                //限制范围
-                var mainStyle = window.getComputedStyle(main);
-                var mainTop = parseInt(mainStyle.getPropertyValue('top'));
-                var mainLeft = parseInt(mainStyle.getPropertyValue('left'));
-
-
-                var topLimit = container.offsetTop,
-                    bottomLimit = container.offsetTop + (w - 1) * size,
-                    leftLimit = container.offsetLeft,
-                    rightLimit = container.offsetLeft + (h - 1) * size;
+                var mainTop = getElePos(main, 'top');
+                var mainLeft = getElePos(main, 'left');
+                //获得 top、bottom、left、right 的限制值
+                var topLimit = getPosLimit(container, 'top'),
+                    bottomLimit = getPosLimit(container, 'bottom'),
+                    leftLimit = getPosLimit(container, 'left'),
+                    rightLimit = getPosLimit(container, 'right');
 
                 if (angle === 0 && mainTop > topLimit) {
                     //如果蓝色边方向向上
@@ -202,6 +247,69 @@
                 }
             }
 
+            function translateLeft() {
+                //获得 main 的 left 值
+                //注意传参的时候要用字符类型，否则会被认为是变量
+                var mainLeft = getElePos(main, 'left');
+                //获得 left 的限制值
+                var leftLimit = getPosLimit(container, 'left');
+                if (mainLeft > leftLimit) {
+                    var currentLeft = main.offsetLeft;
+                    main.style.left = currentLeft - step * size + 'px';
+                } else {
+                    return false;
+                }
+            }
+
+            function translateTop() {
+                var mainTop = getElePos(main, 'top');
+                var topLimit = getPosLimit(container, 'top');
+                if (mainTop > topLimit) {
+                    var currentTop = main.offsetTop;
+                    main.style.top = currentTop - step * size + 'px';
+                } else {
+                    return false;
+                }
+            }
+
+            function translateRight() {
+                var mainLeft = getElePos(main, 'left');
+                var rightLimit = getPosLimit(container, 'right');
+                if (mainLeft < rightLimit) {
+                    var currentLeft = main.offsetLeft;
+                    main.style.left = currentLeft + step * size + 'px';
+                } else {
+                    return false;
+                }
+            }
+
+            function translateBottom() {
+                var mainTop = getElePos(main, 'top');
+                var bottomLimit = getPosLimit(container, 'bottom');
+                if (mainTop < bottomLimit) {
+                    var currentTop = main.offsetTop;
+                    main.style.top = currentTop + step * size + 'px';
+                } else {
+                    return false;
+                }
+            }
+
+            // function moveLeft() {
+            //
+            // }
+            //
+            // function moveTop() {
+            //
+            // }
+            //
+            // function moveRight() {
+            //
+            // }
+            //
+            // function moveBottom() {
+            //
+            // }
+
             //运动函数，根据用户指令执行不同的运动函数
             function move() {
                 if (goInput.value.toUpperCase() === 'GO') {
@@ -212,6 +320,22 @@
                     turnRight();
                 } else if (goInput.value.toUpperCase() === 'TUN BAC') {
                     turnBack();
+                } else if (goInput.value.toUpperCase() === 'TRA LEF') {
+                    translateLeft();
+                } else if (goInput.value.toUpperCase() === 'TRA TOP') {
+                    translateTop();
+                } else if (goInput.value.toUpperCase() === 'TRA RIG') {
+                    translateRight();
+                } else if (goInput.value.toUpperCase() === 'TRA BOT') {
+                    translateBottom();
+                } else if (goInput.value.toUpperCase() === 'MOV LEF') {
+                    moveLeft();
+                } else if (goInput.value.toUpperCase() === 'MOV TOP') {
+                    moveTop();
+                } else if (goInput.value.toUpperCase() === 'MOV RIG') {
+                    moveRight();
+                } else if (goInput.value.toUpperCase() === 'MOV BOT') {
+                    moveBottom();
                 } else {
                     return false;
                 }
