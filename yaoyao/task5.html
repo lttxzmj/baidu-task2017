@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>task04 听指令的小方块（一）</title>
+    <title>task05 听指令的小方块（二）</title>
     <style media="screen">
         .container {
             border: 1px solid #ccc;
@@ -46,6 +46,102 @@
 
         .main {
             position: relative;
+            animation-duration: 4s;
+            animation-fill-mode: forwards;
+            animation-timing-function: linear;
+            animation-direction: alternate;
+        }
+
+        @keyframes tl {
+            0% {
+                border-radius: 0;
+                transform: rotate(0deg);
+            }
+            33% {
+                border-radius: 50%;
+                transform: rotate(0deg);
+            }
+            67% {
+                border-radius: 50%;
+                transform: rotate(-90deg);
+            }
+            100% {
+                border-radius: 0;
+                transform: rotate(-90deg);
+            }
+        }
+
+        .tl {
+            animation-name: tl;
+        }
+
+        @keyframes tr {
+            0% {
+                border-radius: 0;
+                transform: rotate(0deg);
+            }
+            33% {
+                border-radius: 50%;
+                transform: rotate(0deg);
+            }
+            67% {
+                border-radius: 50%;
+                transform: rotate(90deg);
+            }
+            100% {
+                border-radius: 0;
+                transform: rotate(90deg);
+            }
+        }
+
+        .tr {
+            animation-name: tr;
+        }
+
+        @keyframes tb {
+            0% {
+                border-radius: 0;
+                transform: rotate(0deg);
+            }
+            33% {
+                border-radius: 50%;
+                transform: rotate(0deg);
+            }
+            67% {
+                border-radius: 50%;
+                transform: rotate(180deg);
+            }
+            100% {
+                border-radius: 0;
+                transform: rotate(180deg);
+            }
+        }
+
+        .tb {
+            animation-name: tb;
+        }
+
+        @keyframes tt {
+            0% {
+                border-radius: 0;
+                transform: rotate(0deg);
+            }
+            33% {
+                border-radius: 50%;
+                transform: rotate(0deg);
+            }
+            67% {
+                border-radius: 50%;
+                transform: rotate(360deg);
+            }
+            100% {
+                border-radius: 0;
+                transform: rotate(360deg);
+            }
+        }
+
+        .tt {
+            animation-name: tb;
         }
 
         .main-dirction {
@@ -211,6 +307,11 @@
             function turnLeft() {
                 var deg = -90;
                 main.style.transform = 'rotate(' + deg + 'deg)';
+                if (!main.classList.contains('tl')) {
+                    main.classList.add('tl');
+                } else {
+                    main.classList.remove('tl');
+                }
             }
 
 
@@ -218,17 +319,32 @@
             function turnRight() {
                 var deg = 90;
                 main.style.transform = 'rotate(' + deg + 'deg)';
+                if (!main.classList.contains('tr')) {
+                    main.classList.add('tr');
+                } else {
+                    main.classList.remove('tr');
+                }
             }
             //向上转
             function turnTop() {
                 var deg = 0;
                 main.style.transform = 'rotate(' + deg + 'deg)';
+                if (!main.classList.contains('tt')) {
+                    main.classList.add('tt');
+                } else {
+                    main.classList.remove('tt');
+                }
             }
 
             //TUN BAC：向右转（旋转180度）
             function turnBack() {
                 var deg = 180;
                 main.style.transform = 'rotate(' + deg + 'deg)';
+                if (!main.classList.contains('tb')) {
+                    main.classList.add('tb');
+                } else {
+                    main.classList.remove('tb');
+                }
             }
 
             //获取旋转角度
@@ -319,6 +435,7 @@
                 turnBack();
                 go();
             }
+
 
             //运动函数，根据用户指令执行不同的运动函数
             function move() {
