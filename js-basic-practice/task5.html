@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>task 05</title>
+    <style media="screen">
+        .showCol {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            height: 110px;
+            margin: 5px;
+        }
+
+        .col {
+            width: 10px;
+            background-color: red;
+            margin: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu">
+            <input type="text" value="">
+            <button class="add" type="button" name="button">添加</button>
+        </div>
+        <div class="show-container">
+            <button class="sort" type="button" name="button">排序</button>
+            <div class="showCol">
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        (function() {
+            //找到需要操作的元素
+            var menu = document.getElementsByClassName('menu')[0];
+            var input = menu.getElementsByTagName('input')[0];
+            var addBtn = document.getElementsByClassName('add')[0];
+            var sortBtn = document.getElementsByClassName('sort')[0];
+            var showCol = document.getElementsByClassName('showCol')[0];
+            var valueArr = [];
+            var timer = null;
+
+
+            //添加元素并且限制输入的数字在 10-100
+            function getInputValue(v) {
+                var inputValue = parseInt(input.value);
+                if (inputValue === '') {
+                    alert("请输入数字");
+                    return;
+                } else if (isNaN(inputValue)) {
+                    alert("请输入数字");
+                    return;
+                } else {
+                    //限制输入的数字范围在 10 ～ 100 之间
+                    if (inputValue >= 10 && inputValue <= 100) {
+                        input.value = '';
+                        valueArr.push(inputValue);
+                        return inputValue;
+                    } else {
+                        alert("请输入 10 ～ 100 之间的数字");
+                        return;
+                    }
+                }
+            }
+
+            function renderInitial() {
+                var span = document.createElement('span');
+                var item = getInputValue();
+                //形成柱状图
+                span.className = 'col';
+                span.style.height = item + 'px';
+                if (item) {
+                    showCol.appendChild(span);
+                }
+            }
+
+            //state 数组，用于存放每一次比较的结果
+            var state = [];
+            // 冒泡计数器，存放比较的总次数
+            var count1 = 0;
+
+            //实现冒泡排序效果
+            function sort(spanValue) {
+                var len = spanValue.length,
+                    i, j, temp;
+
+                for (i = 0; i < spanValue.length; i++) {
+                    for (j = 0; j < spanValue.length - i - 1; j++) {
+                        if (spanValue[j] > spanValue[j + 1]) {
+                            temp = spanValue[j + 1];
+                            spanValue[j + 1] = spanValue[j];
+                            spanValue[j] = temp;
+                            //复制 spanValue 的结果到 state 数组中
+                            state.push(spanValue.slice(0));
+                            count1++;
+                        }
+                    }
+                }
+            }
+
+            //实现冒泡排序可视化
+            //渲染计数器，初始值为0
+            var count2 = 0;
+            //将每一趟中的每一次比较都渲染到页面中
+            function renderSort() {
+                var spans = showCol.getElementsByTagName('span');
+                s = state.shift() || [];
+                for (var i = 0; i < spans.length; i++) {
+                    spans[i].style.height = s[i] + "px";
+                }
+                count2++;
+                if (count2 === count1) {
+                    clearInterval(timer);
+                }
+            }
+
+            function handleClick() {
+                addBtn.addEventListener('click', function() {
+                    //item 个数最多为60个
+                    if (valueArr.length > 60) {
+                        alert("只能输入60个数字！");
+                        return;
+                    } else {
+                        renderInitial();
+                    }
+                });
+
+                sortBtn.addEventListener('click', function() {
+                    var spans = showCol.getElementsByTagName('span');
+                    //设置一个存放每个span高度的数组
+                    var spanValue = [];
+                    for (var i = 0; i < spans.length; i++) {
+                        spanValue.push(parseInt(spans[i].style.height));
+                    }
+
+                    //对所有的 span 的高度值进行升序排序
+                    sort(spanValue);
+                    //设置一个全局变量定时器
+                    timer = setInterval(renderSort, 500);
+                });
+
+            }
+
+            handleClick();
+
+        }());
+    </script>
+</body>
+
+</html>
