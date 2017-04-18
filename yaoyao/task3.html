@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>task03 表单（三）联动</title>
+    <style media="screen">
+        #wrap {
+            width: 400px;
+            margin: 50px auto;
+        }
+
+        .select-container {
+            display: flex;
+        }
+
+        .select-container,
+        .description {
+            margin: 5px;
+        }
+
+        #wrap select {
+            width: 100px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <form id='wrap'>
+        <div class="select-container">
+            <div class="in-school">
+                <input id="school-student" name="student" type="radio">
+                <label for="school-student">在校生</label>
+            </div>
+            <div class="out-school">
+                <input id="not-school-student" name="student" type="radio">
+                <label for="not-school-student">非在校生</label>
+            </div>
+        </div>
+        <div class="description">
+            <div class="student-container hidden">
+                <label for="city">学校</label>
+                <select class="city" name="city">
+                  <option value="1">北京</option>
+                  <option value="2">广东</option>
+                  <option value="3">山东</option>
+                </select>
+                <select class="university" name="university">
+                  <option value="1">北京大学</option>
+                  <option value="2">深圳大学</option>
+                  <option value="3">山东大学</option>
+                </select>
+            </div>
+            <div class='career-container hidden'>
+                <label for="career">就业单位</label>
+                <input id="career" type="text" name="career">
+            </div>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        (function() {
+            var inSchool = document.getElementById('school-student');
+            var outSchool = document.getElementById('not-school-student');
+            var student = document.getElementsByClassName('student-container')[0];
+            var career = document.getElementsByClassName('career-container')[0];
+            var city = document.getElementsByClassName('city')[0];
+            var university = document.getElementsByClassName('university')[0];
+
+            //根据用户的选择修改相应的样式
+            function change() {
+                if (inSchool.checked) {
+                    student.classList.remove('hidden');
+                    career.classList.add('hidden');
+                } else {
+                    student.classList.add('hidden');
+                    career.classList.remove('hidden');
+                }
+            }
+
+            function selectDistrict() {
+                var universityInfo = {
+                    0: ['北京大学',
+                        '清华大学', '北京语言大学'
+                    ],
+                    1: ['深圳大学',
+                        '深圳职业学院', '广州语言大学', '广州工业大学'
+                    ],
+                    2: ['山东大学',
+                        '青岛大学', '山东语言大学'
+                    ]
+                };
+                //将用户选中的值保存起来
+                var selected = city.selectedIndex;
+                //将相对应的 university 的值清空
+                university.textContent = '';
+                //找到与之对应的值，并将其绑定到相应节点
+                for (var i = 0; i < universityInfo[selected].length; i++) {
+                    var opt = document.createElement('option');
+                    opt.textContent = universityInfo[selected][i];
+                    university.appendChild(opt);
+                }
+
+
+            }
+
+            inSchool.addEventListener('click', change, false);
+            outSchool.addEventListener('click', change, false);
+            city.addEventListener('change', selectDistrict, false);
+
+        }());
+    </script>
+</body>
+
+</html>
