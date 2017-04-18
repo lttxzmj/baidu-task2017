@@ -13,7 +13,7 @@
             margin: 5px;
         }
 
-        span {
+        .col {
             width: 10px;
             background-color: red;
             margin: 2px;
@@ -72,6 +72,7 @@
                 var span = document.createElement('span');
                 var item = getInputValue();
                 //形成柱状图
+                span.className = 'col';
                 span.style.height = item + 'px';
                 if (item) {
                     showCol.appendChild(span);
